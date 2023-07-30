@@ -17,6 +17,7 @@ let currentScore = 0;
 let currentPlayer = 0;
 let scores = [0, 0];
 let playing = 0;
+let modalBtn = 1;
 
 const init = function () {
   current0El.innerText = 0;
@@ -26,17 +27,15 @@ const init = function () {
   playing = true;
   scores = [0, 0];
   currentPlayer = 0;
-  currentScore = 0
-  
+  currentScore = 0;
+  modalBtn = 1;
+
   diceEl.classList.add('hidden');
-  document
-  .querySelector(`.player--0`)
-  .classList.remove('player--winner');
-  document
-  .querySelector(`.player--1`)
-  .classList.remove('player--winner');
+  document.querySelector(`.player--0`).classList.remove('player--winner');
+  document.querySelector(`.player--1`).classList.remove('player--winner');
   player0.classList.add('player--active');
   player1.classList.remove('player--active');
+  document.querySelector('.show-modal').innerText = 'How to play?';
 };
 
 init();
@@ -47,7 +46,6 @@ const switchPlayer = function () {
   player0.classList.toggle('player--active');
   player1.classList.toggle('player--active');
 };
-
 
 btnRoll.addEventListener('click', function () {
   if (playing == true) {
@@ -65,6 +63,7 @@ btnRoll.addEventListener('click', function () {
   }
 });
 
+
 btnHold.addEventListener('click', function () {
   if (playing == true) {
     scores[currentPlayer] += currentScore;
@@ -78,6 +77,11 @@ btnHold.addEventListener('click', function () {
         .querySelector(`.player--${currentPlayer}`)
         .classList.remove('player--active');
       playing = false;
+
+      document.querySelector('.show-modal').innerText = ` player ${
+        currentPlayer == 0 ? 1 : 2
+      } won!`;
+      modalBtn = 0;
     } else {
       switchPlayer();
     }
@@ -88,29 +92,16 @@ btnNew.addEventListener('click', function () {
   init();
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.close-modal');
 const btnsOpenModal = document.querySelectorAll('.show-modal');
 
 const openModal = function () {
-  modal.classList.remove('hidden');
-  overlay.classList.remove('hidden');
+  if (modalBtn == 1) {
+    modal.classList.remove('hidden');
+    overlay.classList.remove('hidden');
+  }
 };
 
 const closeModal = function () {
