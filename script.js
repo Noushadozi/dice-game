@@ -63,27 +63,28 @@ btnRoll.addEventListener('click', function () {
   }
 });
 
-
 btnHold.addEventListener('click', function () {
-  if (playing == true) {
-    scores[currentPlayer] += currentScore;
-    document.getElementById(`score--${currentPlayer}`).innerText =
-      scores[currentPlayer];
-    if (scores[currentPlayer] >= 30) {
-      document
-        .querySelector(`.player--${currentPlayer}`)
-        .classList.add('player--winner');
-      document
-        .querySelector(`.player--${currentPlayer}`)
-        .classList.remove('player--active');
-      playing = false;
+  if (currentScore > 0) {
+    if (playing == true) {
+      scores[currentPlayer] += currentScore;
+      document.getElementById(`score--${currentPlayer}`).innerText =
+        scores[currentPlayer];
+      if (scores[currentPlayer] >= 30) {
+        document
+          .querySelector(`.player--${currentPlayer}`)
+          .classList.add('player--winner');
+        document
+          .querySelector(`.player--${currentPlayer}`)
+          .classList.remove('player--active');
+        playing = false;
 
-      document.querySelector('.show-modal').innerText = ` player ${
-        currentPlayer == 0 ? 1 : 2
-      } won!`;
-      modalBtn = 0;
-    } else {
-      switchPlayer();
+        document.querySelector('.show-modal').innerText = ` player ${
+          currentPlayer == 0 ? 1 : 2
+        } won!`;
+        modalBtn = 0;
+      } else {
+        switchPlayer();
+      }
     }
   }
 });
