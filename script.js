@@ -16,14 +16,26 @@ const diceEl = document.querySelector('.dice');
 let currentScore = 0;
 let currentPlayer = 0;
 let scores = [0, 0];
+let playing = 0;
 
 const init = function () {
   current0El.innerText = 0;
   current0El.innerText = 0;
   score0El.innerText = 0;
   score1El.innerText = 0;
+  playing = true;
+  scores = [0, 0];
+  currentPlayer = 0;
 
   diceEl.classList.add('hidden');
+  document
+  .querySelector(`.player--0`)
+  .classList.remove('player--winner');
+  document
+  .querySelector(`.player--1`)
+  .classList.remove('player--winner');
+  player0.classList.add('player--active');
+  player1.classList.remove('player--active');
 };
 
 const switchPlayer = function () {
@@ -37,17 +49,40 @@ const switchPlayer = function () {
 init();
 
 btnRoll.addEventListener('click', function () {
-  let randomNumber = Math.round(Math.random() * 5) + 1;
-  diceEl.classList.remove('hidden');
-  diceEl.src = `dice-${randomNumber}.png`;
+  if (playing == true) {
+    let randomNumber = Math.round(Math.random() * 5) + 1;
+    diceEl.classList.remove('hidden');
+    diceEl.src = `dice-${randomNumber}.png`;
 
-  if (randomNumber !== 1) {
-    currentScore += randomNumber;
-    document.getElementById(`current--${currentPlayer}`).innerText =
-      currentScore;
-  } else {
-    switchPlayer();
+    if (randomNumber !== 1) {
+      currentScore += randomNumber;
+      document.getElementById(`current--${currentPlayer}`).innerText =
+        currentScore;
+    } else {
+      switchPlayer();
+    }
   }
 });
 
-btnHold
+btnHold.addEventListener('click', function () {
+  if (playing == true) {
+    scores[currentPlayer] += currentScore;
+    document.getElementById(`score--${currentPlayer}`).innerText =
+      scores[currentPlayer];
+    if (scores[currentPlayer] >= 30) {
+      document
+        .querySelector(`.player--${currentPlayer}`)
+        .classList.add('player--winner');
+      document
+        .querySelector(`.player--${currentPlayer}`)
+        .classList.remove('player--active');
+      playing = false;
+    } else {
+      switchPlayer();
+    }
+  }
+});
+
+btnNew.addEventListener('click', function () {
+  init();
+});
