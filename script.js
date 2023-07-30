@@ -21,7 +21,7 @@ let modalBtn = 1;
 
 const init = function () {
   current0El.innerText = 0;
-  current0El.innerText = 0;
+  current1El.innerText = 0;
   score0El.innerText = 0;
   score1El.innerText = 0;
   playing = true;
